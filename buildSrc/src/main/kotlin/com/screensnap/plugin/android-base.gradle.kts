@@ -8,7 +8,7 @@ import com.screensnap.utils.testImplementation
 import org.gradle.api.JavaVersion
 import org.gradle.kotlin.dsl.configure
 
-apply(plugin = "kotlin-kapt")
+apply(plugin = "com.google.devtools.ksp")
 apply(plugin = "org.jetbrains.kotlin.android")
 apply(plugin = "com.screensnap.plugin.extra.hilt")
 
@@ -27,8 +27,8 @@ configure<BaseExtension> {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     packagingOptions {
@@ -38,8 +38,8 @@ configure<BaseExtension> {
     }
 
     dependencies {
-        implementation("androidx.core:core-ktx:1.9.0")
-        implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+        implementation("androidx.core:core-ktx:1.12.0")
+        implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
         testImplementation("junit:junit:4.13.2")
         androidTestImplementation("androidx.test.ext:junit:1.1.5")

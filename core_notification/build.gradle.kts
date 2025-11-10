@@ -9,9 +9,6 @@ android {
 dependencies {
     // Project
     implementation(project(":core_ui"))
-}
 
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
+    implementation("androidx.core:core:1.12.0")
 }

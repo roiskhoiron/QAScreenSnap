@@ -6,12 +6,14 @@ import com.screensnap.utils.androidTestImplementation
 import com.screensnap.utils.debugImplementation
 import com.screensnap.utils.implementation
 
+apply(plugin = "org.jetbrains.kotlin.plugin.compose")
+
 extensions.findByType<LibraryExtension>()?.apply {
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.7.1"
     }
 }
 
@@ -20,7 +22,7 @@ extensions.findByType<ApplicationExtension>()?.apply {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.7.1"
     }
 }
 
@@ -38,7 +40,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     // Navigation in compose
-    implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation("androidx.navigation:navigation-compose:2.7.0")
 
     // Icons extended
     implementation("androidx.compose.material:material-icons-extended:1.6.2")

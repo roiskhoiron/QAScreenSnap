@@ -30,3 +30,7 @@ fun DependencyHandler.debugImplementation(dependency: Any){
 fun DependencyHandler.kapt(dependency: Any){
     dependsAs("kapt", dependency)
 }
+
+fun DependencyHandler.ksp(dependency: Any) {
+    dependsAs("ksp", dependency)
+}

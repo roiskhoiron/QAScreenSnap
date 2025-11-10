@@ -13,7 +13,3 @@ dependencies {
     implementation(project(":core_ui"))
 }
 
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
-}

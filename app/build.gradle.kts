@@ -18,8 +18,3 @@ dependencies {
     implementation(project(":feature_home"))
     implementation(project(":feature_settings"))
 }
-
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
-}

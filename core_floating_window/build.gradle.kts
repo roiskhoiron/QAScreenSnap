@@ -1,6 +1,5 @@
 plugins {
     id("com.screensnap.plugin.core")
-    id("com.screensnap.plugin.extra.compose")
 }
 
 android {
@@ -9,9 +8,6 @@ android {
 
 dependencies {
     // Project
+    implementation(project(":core_ui"))
 }
 
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
-}

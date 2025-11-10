@@ -11,7 +11,3 @@ dependencies {
     implementation(project(":core_datastore"))
 }
 
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
-}

@@ -14,7 +14,3 @@ dependencies {
     implementation(project(":core_camera"))
 }
 
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
-}

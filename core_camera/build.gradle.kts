@@ -13,8 +13,3 @@ dependencies {
     implementation(project(":core_notification"))
 //    implementation(project(":core_screen_recorder"))
 }
-
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
-}
