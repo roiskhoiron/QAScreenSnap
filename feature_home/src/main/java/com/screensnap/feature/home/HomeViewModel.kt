@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.screensnap.core.camera.FloatingCameraService
@@ -24,6 +25,7 @@ import com.screensnap.core.notification.NotificationState
 import com.screensnap.core.notification.ScreenSnapNotificationAction
 import com.screensnap.core.screen_recorder.services.ScreenRecorderService
 import com.screensnap.core.screen_recorder.services.ScreenRecorderServiceConfig
+import com.screensnap.sdk.ScreenSnapSDK
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -41,6 +43,7 @@ constructor(
     private val mediaProjectionManager: MediaProjectionManager,
     private val screenSnapDatastore: ScreenSnapDatastore,
     private val notificationEventRepository: NotificationEventRepository,
+    private val screenSnapSDK: ScreenSnapSDK,
 ) : ViewModel() {
     var state by mutableStateOf(HomeScreenState())
         private set
@@ -176,11 +179,20 @@ constructor(
                 app.stopService(cameraIntent)
                 state = state.copy(isCameraOn = false)
             }
+
+            is HomeScreenEvents.OnLaunchQARecording -> {
+                // This will be handled at the UI level since we need the FragmentActivity context
+                // The actual implementation will be in the screen composable
+            }
         }
     }
 
     fun getScreenCapturePermissionIntent(): Intent {
         return mediaProjectionManager.createScreenCaptureIntent()
+    }
+
+    fun launchQARecording(activity: FragmentActivity) {
+        screenSnapSDK.showQARecordingScreen(activity)
     }
 
     private fun loadVideos() {

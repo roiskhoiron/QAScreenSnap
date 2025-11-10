@@ -7,6 +7,7 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.MicOff
 import androidx.compose.material.icons.filled.NoPhotography
@@ -31,10 +32,23 @@ fun HomeChips(
     viewModel: HomeViewModel,
     audioPermissionLauncher: ManagedActivityResultLauncher<String, Boolean>,
     cameraPermissionLauncher: ManagedActivityResultLauncher<String, Boolean>,
+    onLaunchQARecording: () -> Unit,
 ) {
     val context = LocalContext.current
     val state = viewModel.state
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        // QA Recording Chip - SDK Demo
+        FilterChip(
+            selected = false,
+            onClick = {
+                onLaunchQARecording()
+            },
+            label = { Text(text = "QA Mode") },
+            leadingIcon = {
+                Icon(Icons.Default.BugReport, null)
+            },
+        )
+
         // Audio Chip
         FilterChip(
             selected = state.audioState != com.screensnap.core.datastore.AudioState.Mute,

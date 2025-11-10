@@ -13,51 +13,88 @@ import javax.inject.Singleton
  * These can be overriden by user settings.
  */
 @Singleton
-class RecorderConfigValues
-    @Inject
-    constructor(
-        screenSizeHelper: ScreenSizeHelper,
-    ) {
-        /** Screen dimensions */
-        val screenWidth = screenSizeHelper.screenWidth
-        val screenHeight = screenSizeHelper.screenHeight
-        val screenDensity = screenSizeHelper.screenDensity
-
-        /** Video settings for [MediaRecorder] */
-        val videoEncodingBitrate = screenWidth * screenHeight * 5
-        val videoEncoder = MediaRecorder.VideoEncoder.H264
-        val videoFrameRate = 60
-
-        /** Audio settings for [MediaRecorder] */
-        val audioEncoder = MediaRecorder.AudioEncoder.AAC
-        val audioEncodingBitrate = 128000
-        val audioSamplingRate = 44100
-
-        val mediaRecorderOutputFormat = MediaRecorder.OutputFormat.THREE_GPP
-
-        /** Settings for AudioFormat in [AudioRecorder] */
-        val audioFormatEncoding = AudioFormat.ENCODING_PCM_16BIT
-        val audioFormatSampleRate =
-            44100 // 44.1[KHz] is only setting guaranteed to be available on all devices
-        val audioFormatChannelMask = AudioFormat.CHANNEL_IN_MONO
-
-        /** Settings for [AudioEncoder] */
-        val AUDIO_MIME_TYPE = MediaFormat.MIMETYPE_AUDIO_AAC
-        val AUDIO_BITRATE = 64000 // 64 kbps
-
-        /** Settings for [SystemAudioRecorder] */
-        val AUDIO_BUFFER_SIZE =
-            AudioRecord.getMinBufferSize(
-                audioFormatSampleRate,
-                AudioFormat.CHANNEL_IN_MONO,
-                AudioFormat.ENCODING_PCM_16BIT,
+data class RecorderConfigValues(
+    val screenWidth: Int,
+    val screenHeight: Int,
+    val screenDensity: Int,
+    // Video settings
+    val videoEncodingBitrate: Int = screenWidth * screenHeight * 5,
+    val videoEncoder: Int = MediaRecorder.VideoEncoder.H264,
+    val videoFrameRate: Int = 60,
+    // Audio settings
+    val audioEncoder: Int = MediaRecorder.AudioEncoder.AAC,
+    val audioEncodingBitrate: Int = 128000,
+    val audioSamplingRate: Int = 44100,
+    val mediaRecorderOutputFormat: Int = MediaRecorder.OutputFormat.THREE_GPP,
+    // AudioFormat settings
+    val audioFormatEncoding: Int = AudioFormat.ENCODING_PCM_16BIT,
+    val audioFormatSampleRate: Int = 44100, // 44.1[KHz] is guaranteed available
+    val audioFormatChannelMask: Int = AudioFormat.CHANNEL_IN_MONO,
+    // [AudioEncoder] settings
+    val AUDIO_MIME_TYPE: String = MediaFormat.MIMETYPE_AUDIO_AAC,
+    val AUDIO_BITRATE: Int = 64000, // 64 kbps
+    // [SystemAudioRecorder] settings
+    val AUDIO_BUFFER_SIZE: Int = AudioRecord.getMinBufferSize(
+        44100,
+        AudioFormat.CHANNEL_IN_MONO,
+        AudioFormat.ENCODING_PCM_16BIT,
+    ),
+    // [MediaMuxer] settings
+    val mediaMuxerOutputFormat: Int = MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4,
+    // [MediaCodec] settings
+    val TIMEOUT: Long = 10000L,
+    val VIDEO_MIME_TYPE: String = MediaFormat.MIMETYPE_VIDEO_AVC
+) {
+    companion object {
+        fun createLowQualityConfig(
+            screenWidth: Int,
+            screenHeight: Int,
+            screenDensity: Int
+        ): RecorderConfigValues {
+            return RecorderConfigValues(
+                screenWidth = screenWidth,
+                screenHeight = screenHeight,
+                screenDensity = screenDensity,
+                videoEncodingBitrate = (screenWidth * screenHeight * 2.5).toInt(),
+                videoFrameRate = 30,
+                audioEncodingBitrate = 64000,
+                audioSamplingRate = 22050,
+                AUDIO_BITRATE = 32000,
             )
+        }
 
-        /** Settings for [MediaMuxer] */
-        val mediaMuxerOutputFormat = MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4
+        fun createMediumQualityConfig(
+            screenWidth: Int,
+            screenHeight: Int,
+            screenDensity: Int
+        ): RecorderConfigValues {
+            return RecorderConfigValues(
+                screenWidth = screenWidth,
+                screenHeight = screenHeight,
+                screenDensity = screenDensity,
+                videoEncodingBitrate = (screenWidth * screenHeight * 4).toInt(),
+                videoFrameRate = 45,
+                audioEncodingBitrate = 96000,
+                audioSamplingRate = 44100,
+                AUDIO_BITRATE = 64000,
+            )
+        }
 
-        /** Settings for [MediaCodec] */
-        val TIMEOUT = 10000L
-
-        val VIDEO_MIME_TYPE = MediaFormat.MIMETYPE_VIDEO_AVC
+        fun createHighQualityConfig(
+            screenWidth: Int,
+            screenHeight: Int,
+            screenDensity: Int
+        ): RecorderConfigValues {
+            return RecorderConfigValues(
+                screenWidth = screenWidth,
+                screenHeight = screenHeight,
+                screenDensity = screenDensity,
+                videoEncodingBitrate = (screenWidth * screenHeight * 8).toInt(),
+                videoFrameRate = 60,
+                audioEncodingBitrate = 192000,
+                audioSamplingRate = 48000,
+                AUDIO_BITRATE = 128000,
+            )
+        }
     }
+}

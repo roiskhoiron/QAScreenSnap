@@ -26,4 +26,6 @@ sealed interface HomeScreenEvents {
     object OnLaunchCamera : HomeScreenEvents
 
     object OnCloseCamera : HomeScreenEvents
+
+    object OnLaunchQARecording : HomeScreenEvents
 }

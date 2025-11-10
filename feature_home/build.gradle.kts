@@ -7,6 +7,8 @@ android {
 }
 
 dependencies {
+    // SDK
+    implementation(project(":screensnap-sdk"))
     // Project
     implementation(project(":core_datastore"))
     implementation(project(":core_screen_recorder"))

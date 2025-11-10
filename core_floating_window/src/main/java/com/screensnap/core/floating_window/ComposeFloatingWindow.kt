@@ -40,7 +40,10 @@ import kotlinx.coroutines.launch
 // Taken from https://github.com/only52607/compose-floating-window
 class ComposeFloatingWindow(
     private val context: Context,
-) : SavedStateRegistryOwner, ViewModelStoreOwner, HasDefaultViewModelProviderFactory {
+) :
+    SavedStateRegistryOwner,
+    ViewModelStoreOwner,
+    HasDefaultViewModelProviderFactory {
     override val defaultViewModelProviderFactory: ViewModelProvider.Factory by lazy {
         SavedStateViewModelFactory(
             context.applicationContext as Application,

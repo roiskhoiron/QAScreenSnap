@@ -1,5 +1,6 @@
 plugins {
     id("com.screensnap.plugin.core")
+    id("com.screensnap.plugin.extra.compose")
 }
 
 android {
@@ -9,5 +10,7 @@ android {
 dependencies {
     // Project
     implementation(project(":core_ui"))
+    // Foundation for gestures
+    implementation("androidx.compose.foundation:foundation:1.6.2")
 }
 

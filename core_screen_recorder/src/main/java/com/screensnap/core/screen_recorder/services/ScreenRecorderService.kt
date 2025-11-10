@@ -14,7 +14,7 @@ import com.screensnap.core.notification.ScreenSnapNotificationConstants
 import com.screensnap.core.notification.ScreenSnapNotificationConstants.NOTIFICATION_ID
 import com.screensnap.core.notification.ScreenSnapNotificationManager
 import com.screensnap.core.screen_recorder.ScreenRecorder
-import com.screensnap.core.screen_recorder.utils.RecorderConfigValues
+import com.screensnap.core.screen_recorder.utils.RecorderConfigHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -33,7 +33,7 @@ class ScreenRecorderService : Service() {
     lateinit var mediaProjectionManager: MediaProjectionManager
 
     @Inject
-    lateinit var recorderConfigValues: RecorderConfigValues
+    lateinit var recorderConfigHelper: RecorderConfigHelper
 
     @Inject
     lateinit var repository: NotificationEventRepository
@@ -133,7 +133,7 @@ class ScreenRecorderService : Service() {
 
         return ScreenRecorder(
             mediaProjection = mediaProjection,
-            config = recorderConfigValues,
+            config = recorderConfigHelper.createDefaultConfig(),
             contentResolver = contentResolver,
             tempVideoFile = tempVideoFile,
             tempSystemAudioFile = tempSystemAudioFile,

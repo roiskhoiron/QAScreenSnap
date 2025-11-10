@@ -31,6 +31,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +44,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.screensnap.core.datastore.AudioState
 import com.screensnap.feature.home.elements.HomeChips
@@ -55,6 +61,8 @@ internal fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state
+    var shouldLaunchQARecording by remember { mutableStateOf(false) }
+
     val mediaProjectionPermissionLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { activityResult ->
             if (activityResult.resultCode == Activity.RESULT_OK) {
@@ -91,6 +99,19 @@ internal fun HomeScreen(
                 Toast.makeText(context, "Access to camera denied", LENGTH_SHORT).show()
             }
         }
+
+    // Handle QA Recording launch
+    LaunchedEffect(shouldLaunchQARecording) {
+        if (shouldLaunchQARecording) {
+            try {
+                viewModel.launchQARecording(context as FragmentActivity)
+            } catch (e: Exception) {
+                Toast.makeText(context, "Failed to launch QA Recording: ${e.message}", LENGTH_SHORT)
+                    .show()
+            }
+            shouldLaunchQARecording = false
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -172,7 +193,8 @@ internal fun HomeScreen(
                 HomeChips(
                     viewModel = viewModel,
                     audioPermissionLauncher = audioPermissionLauncher,
-                    cameraPermissionLauncher = cameraPermissionLauncher
+                    cameraPermissionLauncher = cameraPermissionLauncher,
+                    onLaunchQARecording = { shouldLaunchQARecording = true }
                 )
                 YourRecordingsHeader()
                 if (state.isListRefreshing) {
