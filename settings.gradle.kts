@@ -17,7 +17,7 @@ dependencyResolutionManagement {
 rootProject.name = "ScreenSnap"
 include(":app")
 include(":screensnap-sdk")
-include(":sample-app")
+include(":demo_app")
 include(":core_ui")
 include(":core_screen_recorder")
 include(":core_datastore")

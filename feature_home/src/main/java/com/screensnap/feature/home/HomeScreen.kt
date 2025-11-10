@@ -104,11 +104,13 @@ internal fun HomeScreen(
     LaunchedEffect(shouldLaunchQARecording) {
         if (shouldLaunchQARecording) {
             try {
-                viewModel.launchQARecording(context as FragmentActivity)
+
             } catch (e: Exception) {
                 Toast.makeText(context, "Failed to launch QA Recording: ${e.message}", LENGTH_SHORT)
                     .show()
             }
+
+            viewModel.launchQARecording(context as FragmentActivity)
             shouldLaunchQARecording = false
         }
     }
